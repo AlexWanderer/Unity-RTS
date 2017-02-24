@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Assets.Sources.ecs.systems.view
 {
-    public sealed class RenderPositionSystem : ReactiveSystem<GameEntity>, ViewSystemBase
+    public sealed class UpdatePositionSystem : ReactiveSystem<GameEntity>
     {
 
-        public RenderPositionSystem(Contexts contexts) : base(contexts.game)
+        public UpdatePositionSystem(Contexts contexts) : base(contexts.game)
         {
         }
 

@@ -9,7 +9,7 @@ namespace Assets.Sources.ecs.systems.view
     using Entitas;
     using UnityEngine;
 
-    public sealed class RemoveViewSystem : ReactiveSystem<GameEntity>, ViewSystemBase
+    public sealed class RemoveViewSystem : ReactiveSystem<GameEntity>
     {
 
         public RemoveViewSystem(Contexts contexts) : base(contexts.game)

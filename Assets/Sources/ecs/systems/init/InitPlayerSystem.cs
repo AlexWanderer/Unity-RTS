@@ -6,7 +6,7 @@ using Entitas;
 
 namespace Assets.Sources.ecs.systems.init
 {
-    class InitPlayerSystem : IInitializeSystem, InitSystemBase
+    class InitPlayerSystem : IInitializeSystem
     {
         GameContext context;
 
@@ -18,9 +18,7 @@ namespace Assets.Sources.ecs.systems.init
         public void Initialize()
         {
             var e = context.CreateEntity();
-            e.AddAsset("Player");
-            e.AddPosition(0, 0, 0);
-            e.AddMove(0.001f, 0.025f);
+            (new factories.PlayerFactory(this.context)).CreatePlayer();
         }
     }
 }

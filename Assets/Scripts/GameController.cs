@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Entitas;
 using Assets.Sources.util;
+using System;
+using Assets.Sources.ecs.systems.destroy;
+using Assets.Sources.ecs.systems.game;
+using Assets.Sources.ecs.systems.view;
+//using Assets.Sources.ecs.systems.input;
+using Assets.Sources.ecs.systems.init;
 
 public class GameController : MonoBehaviour
 {
@@ -32,31 +38,38 @@ public class GameController : MonoBehaviour
 
     Systems InitSystems(string featurestr, Contexts contexts)
     {
+        var initSystems = new Feature("Init Systems");
+        var inputSystems = new Feature("Input Systems");
+        var gameSystems = new Feature("Game Systems");
+        var viewSystems = new Feature("View Systems");
+        var destroySystems = new Feature("Destroy Systems");
+
+        initSystems.Add(InitSystem(typeof(InitPlayerSystem), contexts));
+
+        //inputSystems.Add(InitSystem(typeof(InitPlayerSystem), contexts));
+
+        gameSystems.Add(InitSystem(typeof(MoveSystem), contexts));
+
+        viewSystems.Add(InitSystem(typeof(AddViewSystem), contexts));
+        viewSystems.Add(InitSystem(typeof(RemoveViewSystem), contexts));
+        viewSystems.Add(InitSystem(typeof(UpdatePositionSystem), contexts));
+
+        destroySystems.Add(InitSystem(typeof(DestroySystem), contexts));
+
         var systems = new Feature(featurestr)
-            .Add(InitSystemsGroup<Assets.Sources.ecs.systems.init.InitSystemBase>("Init Systems", contexts))
-            .Add(InitSystemsGroup<Assets.Sources.ecs.systems.input.InputSystemBase>("Input Systems", contexts))
-            .Add(InitSystemsGroup<Assets.Sources.ecs.systems.game.GameSystemBase>("Game Systems", contexts))
-            .Add(InitSystemsGroup<Assets.Sources.ecs.systems.view.ViewSystemBase>("View Systems", contexts))
-            .Add(InitSystemsGroup<Assets.Sources.ecs.systems.destroy.DestroySystemBase>("Destroy Systems", contexts));
+            .Add(initSystems)
+            .Add(inputSystems)
+            .Add(gameSystems)
+            .Add(viewSystems)
+            .Add(destroySystems);
 
         systems.Initialize();
 
         return systems;
     }
 
-    // Initialise all systems that derive from this particular type
-    Systems InitSystemsGroup<T>(string featurestr, Contexts contexts) where T : class
+    ISystem InitSystem(Type type, Contexts contexts)
     {
-        var feature = new Feature(featurestr);
-        var listOfDerivedClasses = CSAssemblyHelper.getSubtypes<T>();
-
-        foreach (var type in listOfDerivedClasses)
-        {
-            var systemInstance =
-                CSAssemblyHelper.instantiateType<ISystem>(type, new object[] { contexts });
-            feature.Add(systemInstance);
-        }
-
-        return feature;
+        return CSAssemblyHelper.instantiateType<ISystem>(type, new object[] { contexts });
     }
 }

@@ -3,7 +3,7 @@ using Entitas;
 
 namespace Assets.Sources.ecs.systems.game
 {
-    class MoveSystem : IExecuteSystem, GameSystemBase
+    class MoveSystem : IExecuteSystem
     {
         readonly IGroup<GameEntity> group;
 

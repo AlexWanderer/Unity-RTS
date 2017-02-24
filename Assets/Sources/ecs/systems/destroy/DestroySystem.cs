@@ -3,7 +3,7 @@ using Entitas;
 
 namespace Assets.Sources.ecs.systems.destroy
 {
-    public sealed class DestroySystem : ReactiveSystem<GameEntity>, DestroySystemBase
+    public sealed class DestroySystem : ReactiveSystem<GameEntity>
     {
         readonly GameContext context;
 

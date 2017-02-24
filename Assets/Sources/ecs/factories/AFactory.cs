@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Entitas;
 
-namespace Assets.Sources.ecs.systems.game
+namespace Assets.Sources.ecs.factories
 {
-    interface GameSystemBase : ISystem
+    abstract class AFactory
     {
     }
 }

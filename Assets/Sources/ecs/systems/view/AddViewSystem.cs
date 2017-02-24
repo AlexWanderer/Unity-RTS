@@ -10,7 +10,7 @@ namespace Assets.Sources.ecs.systems.view
     using Entitas;
     using UnityEngine;
 
-    public class AddViewSystem : ReactiveSystem<GameEntity>, ViewSystemBase
+    public class AddViewSystem : ReactiveSystem<GameEntity>
     {
         public AddViewSystem(Contexts contexts) : base(contexts.game)
         {
